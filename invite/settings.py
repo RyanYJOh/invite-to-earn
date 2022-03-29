@@ -24,7 +24,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config("SECRET_KEY")
-SECRET_KEY = "django-insecure-l07l_)5h9u9x4sj%ln@=!6@@d0u$)-$_nl2^elhl*s_80i0luh"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -172,11 +171,8 @@ REST_FRAMEWORK = {
 
 AUTH_USER_MODEL = 'accounts.User'
 
-# SOCIAL_AUTH_GOOGLE_CLIENT_ID = config("SOCIAL_AUTH_GOOGLE_CLIENT_ID")
-# SOCIAL_AUTH_GOOGLE_SECRET = config("SOCIAL_AUTH_GOOGLE_SECRET")
-# STATE = config("STATE")
-SOCIAL_AUTH_GOOGLE_CLIENT_ID = "1042212936875-vgohjnf3jshj9stj3tbto4eq9isnub2g.apps.googleusercontent.com"
-SOCIAL_AUTH_GOOGLE_SECRET = "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"
+SOCIAL_AUTH_GOOGLE_CLIENT_ID = config("SOCIAL_AUTH_GOOGLE_CLIENT_ID")
+SOCIAL_AUTH_GOOGLE_SECRET = config("SOCIAL_AUTH_GOOGLE_SECRET")
 STATE = config("STATE")
 
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
