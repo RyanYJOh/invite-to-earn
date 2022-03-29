@@ -132,7 +132,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
-
+STATIC_ROOT = BASE_DIR / 'staticfiles' 
 
 # Media(사진, 파일 등) 추가할 때 필요
 MEDIA_URL = '/media/'
