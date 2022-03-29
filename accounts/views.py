@@ -13,7 +13,8 @@ from json.decoder import JSONDecodeError
 
 state = getattr(settings, 'STATE')
 
-BASE_URL = 'http://127.0.0.1:8000/'
+# BASE_URL = 'http://127.0.0.1:8000/'
+BASE_URL = 'https://invite-to-earn.herokuapp.com/'
 
 GOOGLE_CALLBACK_URI = BASE_URL + 'accounts/google/callback/'
 
