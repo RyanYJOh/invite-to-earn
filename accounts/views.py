@@ -98,6 +98,8 @@ def google_callback(request):
         accept = requests.post(
             f"{BASE_URL}accounts/google/login/finish/", data=data)
         accept_status = accept.status_code
+        print('data: ', data)
+        print('accept: ', accept.json())
         if accept_status != 200:
             return JsonResponse({'err_msg': 'failed to signup'}, status=accept_status)
         accept_json = accept.json()
