@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
-from accounts.models import User
+from accounts.models import User, UserProfile
 from allauth.socialaccount.models import SocialAccount
 from django.conf import settings
 from dj_rest_auth.registration.views import SocialLoginView
@@ -102,9 +102,8 @@ def google_callback(request):
         if accept_status != 200:
             return JsonResponse({'err_msg': 'failed to signup'}, status=accept_status)
         accept_json = accept.json()
-        print('accept_json BEFORE : ', accept_json)
-        accept_json.pop('user', None)
-        print('accept_json AFTER : ', accept_json)
+        # accept_json.pop('user', None) # 이거 하면 user 정보가 json에서 없어짐.
+        
         return JsonResponse(accept_json)
         
 class GoogleLogin(SocialLoginView):

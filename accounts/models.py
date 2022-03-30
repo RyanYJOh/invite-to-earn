@@ -13,10 +13,9 @@ class User(AbstractUser):
 
     objects = CustomUserManager()
 
-    spouse_name = models.CharField(blank=True, max_length=100)
-    date_of_birth = models.DateField(blank=True, null=True)
+    # nickname = models.CharField(max_length=20, blank=False, default="초대 회장")
+    # profile_img = models.ImageField(null=True, blank=True, upload_to='profile_imgs', default='profile_imgs/strange_d1jvr5.jpg')
     
-
     def __str__(self):
         return self.email
 
