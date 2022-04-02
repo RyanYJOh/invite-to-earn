@@ -101,11 +101,14 @@ def google_callback(request):
         print('accept: ', accept)
         if accept_status != 200:
             return JsonResponse({'err_msg': 'failed to signup'}, status=accept_status)
+    
         accept_json = accept.json()
         # accept_json.pop('user', None) # 이거 하면 user 정보가 json에서 없어짐.
         
         return JsonResponse(accept_json)
-        
+
+
+
 class GoogleLogin(SocialLoginView):
     adapter_class = google_view.GoogleOAuth2Adapter
     callback_url = GOOGLE_CALLBACK_URI
