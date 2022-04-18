@@ -1,3 +1,4 @@
+from ast import In
 from django.shortcuts import render, redirect
 from django.conf import settings
 from accounts.models import User, UserProfile
@@ -8,13 +9,17 @@ from allauth.socialaccount.providers.google import views as google_view
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from django.http import JsonResponse
 import requests
+from main.serializers import InvitationSerializer
 from rest_framework import status
 from json.decoder import JSONDecodeError
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
+from main.models import Service, Invitation, Click
 
 state = getattr(settings, 'STATE')
 
-# BASE_URL = 'http://127.0.0.1:8000/'
-BASE_URL = 'https://invite-to-earn.herokuapp.com/'
+BASE_URL = 'http://127.0.0.1:8000/'
+# BASE_URL = 'https://invite-to-earn.herokuapp.com/'
 
 GOOGLE_CALLBACK_URI = BASE_URL + 'accounts/google/callback/'
 
@@ -85,12 +90,14 @@ def google_callback(request):
         # 기존에 Google로 가입된 유저
         data = {'access_token': access_token, 'code': code}
         accept = requests.post(
-            f"{BASE_URL}accounts/google/login/finish/", data=data)
+            f"{BASE_URL}accounts/google/login/finish/", data=data)        
         accept_status = accept.status_code
+
         if accept_status != 200:
             return JsonResponse({'err_msg': 'failed to signin'}, status=accept_status)
         accept_json = accept.json()
-        accept_json.pop('user', None)
+        # accept_json.pop('user', None)
+        
         return JsonResponse(accept_json)
     except User.DoesNotExist:
         # 기존에 가입된 유저가 없으면 새로 가입
@@ -98,18 +105,25 @@ def google_callback(request):
         accept = requests.post(
             f"{BASE_URL}accounts/google/login/finish/", data=data)
         accept_status = accept.status_code
-        print('accept: ', accept)
         if accept_status != 200:
             return JsonResponse({'err_msg': 'failed to signup'}, status=accept_status)
-    
+
         accept_json = accept.json()
         # accept_json.pop('user', None) # 이거 하면 user 정보가 json에서 없어짐.
-        
         return JsonResponse(accept_json)
-
 
 
 class GoogleLogin(SocialLoginView):
     adapter_class = google_view.GoogleOAuth2Adapter
     callback_url = GOOGLE_CALLBACK_URI
     client_class = OAuth2Client
+
+## (프로필 화면) 내가 등록한 초대 코드/링크
+@api_view(['GET'])
+@permission_classes((AllowAny,))
+def getMyInvitations(request, user_id):
+    this_user = User.objects.get(pk=user_id)
+    all_invi = Invitation.objects.filter(user=this_user).order_by('-created_at')
+
+    serializer = InvitationSerializer(all_invi, many=True)
+    return JsonResponse(serializer.data, status=200, safe=False)

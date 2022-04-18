@@ -18,8 +18,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = config("SECRET_KEY")
-SECRET_KEY = "django-insecure-l07l_)5h9u9x4sj%ln@=!6@@d0u$)-$_nl2^elhl*s_80i0luh"
+SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = config('DEBUG', default=False, cast=bool)
@@ -50,6 +49,8 @@ INSTALLED_APPS = [
 
     'accounts.apps.AccountsConfig',
     'main.apps.MainConfig',
+
+    'algoliasearch_django',
 ]
 
 MIDDLEWARE = [
@@ -202,3 +203,8 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 # SECURE_SSL_REDIRECT = True
 '''
+
+ALGOLIA = {
+    'APPLICATION_ID': 'W1ILN24TP3',
+    'API_KEY' : config("ALGOLIA_API_KEY")
+}

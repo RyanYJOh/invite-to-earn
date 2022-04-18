@@ -4,12 +4,15 @@ from .models import Service, Invitation, Click
 
 class ServiceSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ['id', 'service_kr', 'service_en', 'logo_img', 'verified']
+        model = Service
+        fields = ['id', 'service_kr', 'service_en']
 
 class InvitationSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ['id', 'service', 'user', 'type', 'invitation', 'desc', 'totalClicks', 'created_at']
+        model = Invitation
+        fields = ['id', 'user_kakao_id', 'service', 'type', 'invitation', 'desc', 'created_at']
 
 class ClickSerializer(serializers.ModelSerializer):
     class Meta:
+        model = Click
         fields = ['id', 'invitation', 'created_at']
