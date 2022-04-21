@@ -36,7 +36,6 @@ def postInvitation(request):
             return Response(serializer.data, status=200)
         else:
             # print('error : ', serializer.errors)
-            # print('data : ', serializer.initial_data)
             return JsonResponse({'message' : 'serializer is not valid'})
 
 ## Service 등록
