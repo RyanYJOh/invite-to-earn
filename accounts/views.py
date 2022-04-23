@@ -121,9 +121,9 @@ class GoogleLogin(SocialLoginView):
 ## (프로필 화면) 내가 등록한 초대 코드/링크
 @api_view(['GET'])
 @permission_classes((AllowAny,))
-def getMyInvitations(request, user_id):
-    this_user = User.objects.get(pk=user_id)
-    all_invi = Invitation.objects.filter(user=this_user).order_by('-created_at')
+def getMyInvitations(request, kakao_user_id):
+    # this_user = User.objects.get(pk=user_id)
+    all_invi = Invitation.objects.filter(user_kakao_id=kakao_user_id).order_by('-created_at')
 
     serializer = InvitationSerializer(all_invi, many=True)
     return JsonResponse(serializer.data, status=200, safe=False)
