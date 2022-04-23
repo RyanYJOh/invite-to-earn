@@ -9,7 +9,7 @@ from .serializers import InvitationSerializer, ClickSerializer, ServiceSerialize
 
 ## 초대 코드/링크 등록
 @api_view(['POST'])
-@permission_classes((IsAuthenticated,))
+@permission_classes((AllowAny,))
 def postInvitation(request):
     if request.method == 'GET':
         return HTTPResponse(status=200)
@@ -40,7 +40,7 @@ def postInvitation(request):
 
 ## Service 등록
 @api_view(['POST'])
-@permission_classes((IsAuthenticated,))
+@permission_classes((AllowAny,))
 def postService(request):
     if request.method == 'GET':
         return HTTPResponse(status=200)
