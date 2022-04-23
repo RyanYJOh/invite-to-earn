@@ -21,18 +21,17 @@ def postInvitation(request):
         type = posted['type']
         invitation = posted['invitation']
         desc = posted['desc']
-        
-        new_invitation = Invitation.objects.create(
-            service = Service.objects.get(id=service_id),
-            user_kakao_id = user,
-            type = type,
-            invitation = invitation,
-            desc = desc,
-            totalClicks = 0
-        )
 
         serializer = InvitationSerializer(data=request.data)
-        if serializer.is_valid():    
+        if serializer.is_valid():        
+            Invitation.objects.create(
+                service = Service.objects.get(id=service_id),
+                user_kakao_id = user,
+                type = type,
+                invitation = invitation,
+                desc = desc,
+                totalClicks = 0
+            )
             return Response(serializer.data, status=200)
         else:
             # print('error : ', serializer.errors)
@@ -47,13 +46,12 @@ def postService(request):
     elif request.method == 'POST':
         posted = request.data
 
-        new_service = Service.objects.create(
-            service_kr = posted['service_kr'],
-            service_en = posted['service_en']
-        )
-
         serializer = ServiceSerializer(data=request.data)
         if serializer.is_valid():    
+            Service.objects.create(
+                service_kr = posted['service_kr'],
+                service_en = posted['service_en']
+            )
             return Response(serializer.data, status=200)
         else:
             print('error : ', serializer.errors)

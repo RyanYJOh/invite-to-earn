@@ -5,7 +5,7 @@ from .models import Service, Invitation, Click
 class ServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Service
-        fields = ['id', 'service_kr', 'service_en']
+        fields = ['id', 'user_kakao_id', 'service_kr', 'service_en']
 
 class InvitationSerializer(serializers.ModelSerializer):
     class Meta:
