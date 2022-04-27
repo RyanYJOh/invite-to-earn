@@ -115,16 +115,22 @@ def getRandomInvitation(request, service_id):
 @permission_classes((AllowAny,))
 def searchInvitation(request, keyword):
     ## 이 키워드에 맞는 Service 오브젝트 먼저 가져오기
-    searched_service = Service.objects.filter(Q(service_kr__icontains=keyword) | Q(service_en__icontains=keyword) & Q(verified=True)).distinct()
+    searched_service = Service.objects.filter(Q(service_kr__icontains=keyword) | Q(service_en__icontains=keyword), Q(verified=True)).distinct()
 
     search_result = []
     ## 각각에 대한 Invitation random으로 1개씩 가져오기
     for i in range(0, len(searched_service)):
-        this_invi = Invitation.objects.filter(service=searched_service[i]).order_by('?')[0]
-        serializer = InvitationSerializer(this_invi)
-        search_result.append(serializer.data)
+        this_invi = Invitation.objects.filter(service=searched_service[i]).order_by('?')
 
+        if len(this_invi) != 0:
+            this_invi = this_invi[0]
+            serializer = InvitationSerializer(this_invi)
+            search_result.append(serializer.data)
+        else:
+            pass
+        
     return JsonResponse(search_result, status=200, safe=False)
+
 
 ## 초대코드 등록을 위한 검색
 @api_view(['GET'])
